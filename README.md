@@ -1,11 +1,13 @@
 # deck-releases
 
-Deck Wired for Mac: notarized builds. The cable half of the deck, for Macs where only the cable is allowed. It never touches the network.
+`deck-wired`: the cable half of the deck, for Macs where only the cable is allowed. It never touches the network.
 
 ## Install or update
 
-Quits Deck Wired, downloads the latest release into ~/Applications and opens it. It adds itself as a login item. Then grant it Accessibility and Screen Recording in System Settings, and pick the projects folder from its menu bar icon.
+It runs inside a cmux pane and inherits cmux's Accessibility and Screen Recording, so nothing to sign or grant. The argument is the projects folder that New sessions open under.
 
 ```bash
-pkill -x "Deck Wired"; cd /tmp && rm -f Deck-Wired.zip && curl -sLO https://github.com/zincplusplus/deck-releases/releases/latest/download/Deck-Wired.zip && mkdir -p ~/Applications && rm -rf ~/Applications/"Deck Wired.app" && ditto -x -k Deck-Wired.zip ~/Applications && open ~/Applications/"Deck Wired.app"
+curl -sL https://github.com/zincplusplus/deck-releases/releases/latest/download/deck-wired -o ~/.local/bin/deck-wired && chmod +x ~/.local/bin/deck-wired && cmux workspace create --name Deck --command 'while :; do ~/.local/bin/deck-wired ~/Atlassian; sleep 2; done'
 ```
+
+To update: run the first half again (the `curl` and `chmod`), then press ctrl-c in the Deck pane. The loop restarts the new build.
