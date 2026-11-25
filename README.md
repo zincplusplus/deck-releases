@@ -4,10 +4,10 @@
 
 ## Install or update
 
-It runs inside a cmux pane and inherits cmux's Accessibility and Screen Recording, so nothing to sign or grant. The argument is the projects folder that New sessions open under.
+Run it from the folder your repos live in: that folder is where New sessions open. It runs inside a cmux pane and inherits cmux's Accessibility and Screen Recording, so nothing to sign or grant.
 
 ```bash
-curl -sL https://github.com/zincplusplus/deck-releases/releases/latest/download/deck-wired -o ~/.local/bin/deck-wired && chmod +x ~/.local/bin/deck-wired && cmux workspace create --name Deck --command 'while :; do ~/.local/bin/deck-wired ~/Atlassian; sleep 2; done'
+mkdir -p ~/.local/bin && curl -sL https://github.com/zincplusplus/deck-releases/releases/latest/download/deck-wired -o ~/.local/bin/deck-wired.new && chmod +x ~/.local/bin/deck-wired.new && mv ~/.local/bin/deck-wired.new ~/.local/bin/deck-wired && cmux workspace create --name Deck --cwd "$PWD" --command 'while :; do ~/.local/bin/deck-wired; sleep 2; done'
 ```
 
-To update: run the first half again (the `curl` and `chmod`), then press ctrl-c in the Deck pane. The loop restarts the new build.
+To update: run the same line without the final `cmux workspace create` part. The running tool sees the new build on disk, quits, and the pane's loop starts it.
